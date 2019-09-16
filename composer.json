@@ -1,0 +1,20 @@
+{
+	"name" : "shijunjun/exim",
+	"description" : "导入导出",
+	"type" : "library",
+	"require" : {
+		"php" : ">=7.0.0"
+	},
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "shijunjun",
+			"email" : "jun_5197@163.com"
+		}
+	],
+	"minimum-stability" : "dev",
+	"autoload": {
+    "psr-4": {
+        "Guanguans\\": "src/"
+    }
+}
+}
