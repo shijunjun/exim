@@ -1685,7 +1685,7 @@ class DBConnection
      * @param string $db_name
      * @param string $charset
      */
-    public function __construct($host, $port, $user, $password, $db_name, $charset = 'utf8')
+    public function __construct($host, $user, $password, $db_name,$port=3306, $charset = 'utf8mb4')
     {
         $this->settings = array(
             'host'     => $host,
@@ -1699,20 +1699,34 @@ class DBConnection
     }
     
     /**
+     * 返回PDO实例 
+     * @return PDO
+     * @author shijunjun
+     * @email jun_5197@163.com
+     * @date 2019年9月18日 上午8:40:17
+     */
+    public function getConnect(){
+        if (empty($this->pdo)){
+            $this->connect();
+        }
+        return $this->pdo;
+    }
+    
+    /**
      * 创建 PDO 实例
      */
     protected function connect()
     {
         $dsn       = 'mysql:dbname=' . $this->settings["dbname"] . ';host=' .
-            $this->settings["host"] . ';port=' . $this->settings['port'];
-            $this->pdo = new PDO($dsn, $this->settings["user"], $this->settings["password"],
-                array(
-                    PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES ' . (!empty($this->settings['charset']) ?
-                        $this->settings['charset'] : 'utf8')
-                ));
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $this->pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, false);
-            $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+        $this->settings["host"] . ';port=' . $this->settings['port'];
+        $this->pdo = new PDO($dsn, $this->settings["user"], $this->settings["password"],
+            array(
+                PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES ' . (!empty($this->settings['charset']) ?
+                    $this->settings['charset'] : 'utf8mb4')
+            ));
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->pdo->setAttribute(PDO::ATTR_STRINGIFY_FETCHES, false);
+        $this->pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
     }
     
     /**
