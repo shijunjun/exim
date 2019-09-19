@@ -9,40 +9,20 @@ namespace shijunjun;
 class DB implements IExIm
 {
     protected $pdo = null;
-    protected $setting = [];
+    protected $settings = [];
     protected $sQuery = null;
     protected $success = null;
-    
-    /**
-     * 构造函数
-     *
-     * @param string $host
-     * @param int    $port
-     * @param string $user
-     * @param string $password
-     * @param string $db_name
-     * @param string $charset
-     */
-    public function __construct($host, $user, $password, $db_name,$port=3306, $charset = 'utf8mb4')
-    {
-        $this->settings = array(
-            'host'     => $host,
-            'port'     => $port,
-            'user'     => $user,
-            'password' => $password,
-            'dbname'   => $db_name,
-            'charset'  => $charset,
-        );
-        $this->connect();
-    }
     
     /**
      * 创建 PDO 实例
      */
     protected function connect()
     {
+        if (!$this->settings){
+            throw new ExImException("请先设置数据库连接信息");
+        }
         $dsn       = 'mysql:dbname=' . $this->settings["dbname"] . ';host=' .
-        $this->settings["host"] . ';port=' . $this->settings['port'];
+            $this->settings["host"] . ';port=' . (isset($this->settings['port'])?$this->settings['port']:3306);
         $this->pdo = new \PDO($dsn, $this->settings["user"], $this->settings["password"],
             array(
                 \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES ' . (!empty($this->settings['charset']) ?
@@ -61,7 +41,7 @@ class DB implements IExIm
      * @email jun_5197@163.com
      * @date 2019年9月18日 下午3:55:56
      */
-    public function row(string $sql)
+    protected function row(string $sql)
     {
         $this->execute($sql);
         if (empty($this->sQuery)){
@@ -78,7 +58,7 @@ class DB implements IExIm
      * @email jun_5197@163.com
      * @date 2019年9月18日 下午3:56:10
      */
-    public function query(string $sql)
+    protected function query(string $sql)
     {
         $this->execute($sql);
         if (empty($this->sQuery)){
@@ -95,7 +75,7 @@ class DB implements IExIm
      * @email jun_5197@163.com
      * @date 2019年9月18日 下午3:56:46
      */
-    public function yield(string $sql)
+    protected function yield(string $sql)
     {
         $this->execute($sql);
         if (empty($this->sQuery)){
@@ -114,7 +94,7 @@ class DB implements IExIm
      * @email jun_5197@163.com
      * @date 2019年9月18日 下午3:39:25
      */
-    public function execute(string $statement)
+    protected function execute(string $statement)
     {
         $this->sQuery = null;
         try {
@@ -148,7 +128,7 @@ class DB implements IExIm
     /**
      * 开始事务
      */
-    public function beginTrans()
+    protected function beginTrans()
     {
         try {
             if (is_null($this->pdo)) {
@@ -170,7 +150,7 @@ class DB implements IExIm
     /**
      * 关闭连接
      */
-    public function closeConnection()
+    protected function closeConnection()
     {
         $this->pdo = null;
     }
@@ -178,7 +158,7 @@ class DB implements IExIm
     /**
      * 提交事务
      */
-    public function commitTrans()
+    protected function commitTrans()
     {
         return $this->pdo->commit();
     }
@@ -186,7 +166,7 @@ class DB implements IExIm
     /**
      * 事务回滚
      */
-    public function rollBackTrans()
+    protected function rollBackTrans()
     {
         if ($this->pdo->inTransaction()) {
             return $this->pdo->rollBack();
