@@ -198,7 +198,6 @@ class Export extends DB
         throw new ExImException("缺少SQL语句!");
     }
     
-    // @todo 待处理
     protected function getExportFileName()
     {
         if (isset($this->_attributes['export_file_name']) && $this->_attributes['export_file_name']){
