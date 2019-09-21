@@ -1,5 +1,5 @@
 <?php
-namespace shijunjun;
+namespace shijunjun\exim;
 /**
  * 导入导出文件异常类
  * @Date 2019年9月17日 下午3:47:32

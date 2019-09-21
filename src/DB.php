@@ -1,5 +1,5 @@
 <?php
-namespace shijunjun;
+namespace shijunjun\exim;
 /**
  * 
  * @Date 2019年9月18日 下午3:10:41

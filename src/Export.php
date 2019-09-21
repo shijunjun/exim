@@ -1,5 +1,5 @@
 <?php
-namespace shijunjun;
+namespace shijunjun\exim;
 /**
  * 根据SQL语句导出指定的内容
  * @Date 2019年9月17日 下午3:31:45

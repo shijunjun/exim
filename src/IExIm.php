@@ -1,5 +1,5 @@
 <?php
-namespace shijunjun;
+namespace shijunjun\exim;
 /**
  * 导入导出实现接口
  * @Date 2019年9月17日 下午3:40:07
