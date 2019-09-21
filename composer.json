@@ -3,7 +3,8 @@
 	"description" : "导入导出",
 	"type" : "library",
 	"require" : {
-		"php" : ">=7.0.0"
+		"php" : ">=7.0.0",
+		"shijunjun/uniqid": "dev-master"
 	},
 	"license" : "MIT",
 	"authors" : [{

@@ -198,12 +198,18 @@ class Export extends DB
         throw new ExImException("缺少SQL语句!");
     }
     
+    /**
+     * 获取要导出的文件名 
+     * @return string
+     * @author shijunjun
+     * @email jun_5197@163.com
+     * @date 2019年9月21日 下午4:02:05
+     */
     protected function getExportFileName()
     {
-        if (isset($this->_attributes['export_file_name']) && $this->_attributes['export_file_name']){
-            return $this->_attributes['export_file_name']; 
+        if( !(isset($this->_attributes['export_file_name']) && $this->_attributes['export_file_name'])){
+            $this->_attributes['export_file_name'] = \shijunjun\uniqid\Id::getUniqIdTo62();
         }
-        $mt_rand = mt_rand(1000,9999);
-        return isset($this->_attributes['export_file_name']) && is_numeric($this->_attributes['limit']) && $this->_attributes['limit']>0 ? (int)$this->_attributes['limit'] : self::LIMIT;
+        return $this->_attributes['export_file_name'] . '.' . $this->getFileType();
     }
 }
