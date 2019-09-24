@@ -7,7 +7,5 @@ namespace shijunjun\exim;
  * @Email jun_5197@163.com
  */
 interface IExIm{
-    const FILE_TYPE_EXCEL = "xlsx";
-    const FILE_TYPE_CSV = "csv";
     const LIMIT = 1000;
 }
