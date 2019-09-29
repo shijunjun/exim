@@ -26,11 +26,15 @@ class DB implements IExIm
         $this->pdo = new \PDO($dsn, $this->settings["user"], $this->settings["password"],
             array(
                 \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES ' . (!empty($this->settings['charset']) ?
-                    $this->settings['charset'] : 'utf8mb4')
+                    $this->settings['charset'] : 'utf8mb4'),
+                \PDO::ATTR_STRINGIFY_FETCHES=>true, // 将整形全部转为字符串
+                \PDO::ATTR_ORACLE_NULLS=>\PDO::NULL_TO_STRING, // 将null转为字符串
+                \PDO::ATTR_ERRMODE=>\PDO::ERRMODE_EXCEPTION,
+                \PDO::ATTR_EMULATE_PREPARES=>false,
             ));
-        $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        $this->pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, false);
-        $this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
+        //$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        //$this->pdo->setAttribute(\PDO::ATTR_STRINGIFY_FETCHES, true);
+        //$this->pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false);
     }
     
     /**

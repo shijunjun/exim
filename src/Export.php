@@ -9,6 +9,7 @@ namespace shijunjun\exim;
  */
 class Export extends DB
 {
+    use Common;
     /**
      * 要导出数据的属性
      *  [
@@ -210,10 +211,10 @@ class Export extends DB
         //进行多个文件压缩
         $zip = new \ZipArchive();
         $storageDir = $this->getPath();
-        $this->zipName = $storageDir . "/" . ($zipfile = $this->getFileName(false)) . ".zip";
+        $this->zipName = $storageDir . "/" . $this->getFileName(false) . ".zip";
         $zip->open($this->zipName, \ZipArchive::CREATE);   //打开压缩包
         foreach ($this->filename as $file){
-            $zip->addFile($file,$zipfile.'/'.basename($file));   //向压缩包中添加文件
+            $zip->addFile($file,'csv/'.basename($file));   //向压缩包中添加文件
         }
         $zip->close(); // 关闭
         @array_map('unlink', $this->filename);
@@ -278,6 +279,7 @@ class Export extends DB
         while (true){
             // 设置偏移量
             $offset = ($this->page++-1)*$limit;
+            //if ($offset>2000000) break;
             // 使用迭代器查询数据
             $list = $this->yield($this->getSql($offset));
             // 判断当前查询是否有数据,此处最关键,不能省略,不然会进入到死循环状态
@@ -285,10 +287,10 @@ class Export extends DB
             
             // 初始化结果集变量
             $res = [];
-            foreach ($list as $item){
+            foreach ($list as $key=>$item){
                 $tmp = [];
                 // 聚合要导出的字段
-                array_walk($header['column'], function($filed) use($item,&$tmp){
+                array_walk($header['column'], function($filed) use($key,$item,&$tmp){
                     isset($item[$filed]) && $tmp[$filed] = $item[$filed];
                 });
                 $res[] = array_values($tmp);
@@ -322,35 +324,12 @@ class Export extends DB
         $title = $column = [];
         $start = 1;
         foreach ($columns as $key=>$val){
-            $chr = $this->getChr($start++);
+            $chr = $this->number2char($start++);
             $title["{$chr}"] = $val;
             $column["{$chr}"] = $key;
         }
         return $this->header = ['title'=>$title,'column'=>$column];
     }
-    
-    /**
-     * 将数字转化为excel表格中列名称即:A-Z 
-     * @param int $num 被转换的数字
-     * @throws \Exception
-     * @return string ascii码中的char
-     * @author shijunjun
-     * @email jun_5197@163.com
-     * @date 2019年9月24日 上午8:38:09
-     */
-    protected function getChr(int $num){
-        $num = $num>0?$num:($num+abs($num)+1);
-        if (($n = ceil($num/26))==1){
-            $chr = chr(($num>0?$num-1:$num)+65);
-        }else{
-            if( ($first = $n-1+64) > 90){
-                throw new ExImException("超出列表最大列数!");
-            }
-            $chr = chr($first) . chr((($mod=$num%26)==0?26:$mod)+64);
-        }
-        return $chr;
-    }
-    
     
     /**
      * 获取要执行的SQL语句,并自动加上分页
