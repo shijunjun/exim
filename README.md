@@ -1,6 +1,19 @@
 # exim
 基于[xlswriter](https://github.com/viest/php-ext-excel-export)扩展的导出导入,目前只支持xlsx文件的导入和导出
 
+### xlswriter安装
+```bash
+git clone https://github.com/viest/php-ext-excel-export
+cd php-ext-excel-export
+git submodule update --init
+`which phpize` && ./configure --with-php-config=`which php-config` --enable-reader && make && make install
+
+# 编辑php.ini
+[xlswriter]
+extension=xlswriter.so
+```
+
+
 ### 用法
 ```bash
 composer require shijunjun/exim
