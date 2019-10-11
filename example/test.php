@@ -15,7 +15,7 @@ $inputFileName = __DIR__ . '/file/test.xls';
 
 $read = (new \shijunjun\exim\Read([
     'file'=> $inputFileName, // 要导入的文件
-    'size'=>2, // 每次获取读取行数
+    'size'=>1000, // 每次获取读取行数
     'cloumns'=>[
         'A'=>'id' ,// 'ID',
         'B'=>'band_id' ,// '品牌ID',

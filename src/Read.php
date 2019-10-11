@@ -188,7 +188,7 @@ class Read implements IExIm
         $reader->setReadDataOnly(TRUE);
         $chunkFilter = new ChunkReadFilter();
         $reader->setReadFilter($chunkFilter);
-        $startRow = 2;
+        $startRow = 0;
         
         $boolean = TRUE;
         while ($boolean)
@@ -198,7 +198,7 @@ class Read implements IExIm
             
             $worker = $spreadsheet->getActiveSheet()->toArray();
            
-            if ($this->isset_title || $startRow!=2 ) unset($worker[0]);
+            if ($this->isset_title || $startRow>2 ) unset($worker[0]);
             
             $data = array_slice($worker, 0-$this->size);
             if (!$data) {
