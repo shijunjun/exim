@@ -122,13 +122,15 @@ $read = (new \shijunjun\exim\Read([
         'V'=>'weight' ,// '重量',
         'W'=>'zone' ,// '专区',
     ],
-]))->delTitle(false); // 显示标题
+]));
 
+// 文件是否有标题如果有标题那么请设置true(默认值,可以省略),否则为false
+$read->isSetTitle(false);
+ 
+// 遍历数据
 foreach ($read->list() as $item)
 {
     var_export( $item );
 }
-
-// delTitle:是否删除标题 默认:true(是) 
 
 ```
