@@ -264,7 +264,7 @@ class Read implements IExIm
             
             if (is_numeric($item)){
                 $isfloat = is_float($item);
-                $decimals = $isfloat ? 2 : 0;
+                $decimals = $isfloat ? 3 : 0;
                 $dec_point = $isfloat ? "." : '';
                 $thousands_sep = "" ;
                 $item = number_format($item, $decimals, $dec_point, $thousands_sep);
