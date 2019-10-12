@@ -254,8 +254,13 @@ class Read implements IExIm
         
         $flag = 0;
         array_walk($row, function(&$item)use(&$flag){
-            $encode = mb_detect_encoding($item, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5')); 
-            $item = is_null($item) ? '' : mb_convert_encoding($item, 'UTF-8', $encode);
+            if (is_null($item)){
+                $item = '';
+            }
+            if ($item && !is_numeric($item)){
+                $encode = mb_detect_encoding($item, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
+                $item = mb_convert_encoding($item, 'UTF-8', $encode);
+            }
             $flag = $item?+1:+0;
         });
         if ($flag==0){
