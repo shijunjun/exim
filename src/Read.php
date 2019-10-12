@@ -261,6 +261,14 @@ class Read implements IExIm
                 $encode = mb_detect_encoding($item, array("ASCII",'UTF-8',"GB2312","GBK",'BIG5'));
                 $item = mb_convert_encoding($item, 'UTF-8', $encode);
             }
+            
+            if (is_numeric($item)){
+                $isfloat = is_float($item);
+                $decimals = $isfloat ? 2 : 0;
+                $dec_point = $isfloat ? "." : '';
+                $thousands_sep = "" ;
+                $item = number_format($item, $decimals, $dec_point, $thousands_sep);
+            }
             $flag = $item?+1:+0;
         });
         if ($flag==0){
