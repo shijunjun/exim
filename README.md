@@ -97,7 +97,7 @@ array (
 $read = (new \shijunjun\exim\Read([
     'file'=> $file, // 要导入的文件
     'size'=>1000, // 每次获取读取行数
-    'cloumn'=>[
+    'cloumns'=>[
         'A'=>'id' ,// 'ID',
         'B'=>'band_id' ,// '品牌ID',
         'C'=>'sku_uuid' ,// '商品规格ID',
