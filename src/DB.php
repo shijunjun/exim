@@ -21,8 +21,13 @@ class DB implements IExIm
         if (!$this->settings){
             throw new ExImException("请先设置数据库连接信息");
         }
-        $dsn       = 'mysql:dbname=' . $this->settings["dbname"] . ';host=' .
+        if(!isset($this->settings['dsn']))
+        {
+            $dsn       = 'mysql:dbname=' . $this->settings["dbname"] . ';host=' .
             $this->settings["host"] . ';port=' . (isset($this->settings['port'])?$this->settings['port']:3306);
+        }else{
+            $dsn = $this->setting['dsn'];
+        }
         $this->pdo = new \PDO($dsn, $this->settings["user"], $this->settings["password"],
             array(
                 \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES ' . (!empty($this->settings['charset']) ?
