@@ -241,7 +241,8 @@ class Export extends DB
             $excel  = new \Vtiful\Kernel\Excel($config);
             $filename = $this->getFileName();
             // 设置表格标题
-            $excel->fileName($filename)->header($title);
+            $sheetname = isset($this->_config['sheetname']) ? $this->_config['sheetname'] : 'sheet1';
+            $excel->fileName($filename,$sheetname)->header($title);
             // 获取数据
             $list = $this->select();
             if (!$list->current()) break;

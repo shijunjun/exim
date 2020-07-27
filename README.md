@@ -28,6 +28,8 @@ $config = [
     'path' => __DIR__.'/xls',
     // 非必需,导出的文件名
     'filename'=> date('YmdHis'),
+    // 设置表格sheet名称,默认sheet1
+    'sheetname'=> 'sheet1',
     // 导出的字段
     'columns'=>[
         'id'=>'ID',
@@ -55,7 +57,11 @@ $config = [
         'zone'=>'专区', //   1会员专区 2购物券专区 3大众好货专区
     ],
     // MySQL链接信息
-    'mysql'=>['host'=>"192.168.56.190",'user'=>"root",'password'=>"MySQL123#","dbname"=>"tests"],
+    'mysql'=>[
+    		// 优先读取dsn,如果dsn不存在那么就查找host,dbname,port
+    		'dsn'=>'mysql:host=localhost;dbname=test;port=3306'
+    		'host'=>"192.168.56.190",'user'=>"root",'password'=>"MySQL123#","dbname"=>"tests"
+    	],
     // 执行sql
     'sql' => "select 
                 *,
