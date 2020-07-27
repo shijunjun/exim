@@ -26,7 +26,7 @@ class DB implements IExIm
             $dsn       = 'mysql:dbname=' . $this->settings["dbname"] . ';host=' .
             $this->settings["host"] . ';port=' . (isset($this->settings['port'])?$this->settings['port']:3306);
         }else{
-            $dsn = $this->setting['dsn'];
+            $dsn = $this->settings['dsn'];
         }
         $this->pdo = new \PDO($dsn, $this->settings["user"], $this->settings["password"],
             array(
