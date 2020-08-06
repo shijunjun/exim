@@ -75,8 +75,8 @@ class Export extends DB
     protected $zipName = null;
     
     protected $max_line = 0;
-    
-    public function __construct(){
+    private $_callback;
+    public function __construct($callback=NULL){
         $extension = ['zip','xlswriter'];
         foreach ($extension as $item){
             if (!extension_loaded($item))
@@ -86,6 +86,7 @@ class Export extends DB
         }
         $this->beginTime = microtime(true);
         $this->beginMem = memory_get_usage();
+        $this->_callback = $callback;
     }
     
     /**
@@ -288,8 +289,17 @@ class Export extends DB
             
             // 初始化结果集变量
             $res = [];
+            /**
+             * @var mixed $key
+             */
             foreach ($list as $key=>$item){
                 $tmp = [];
+                
+                // 调用回调函数处理处理数据
+                if ($this->_callback!==null && is_callable($this->_callback) ){
+                    $item = call_user_func($this->_callback,$item);
+                }
+                
                 // 聚合要导出的字段
                 array_walk($header['column'], function($filed) use($key,$item,&$tmp){
                     isset($item[$filed]) && $tmp[$filed] = $item[$filed];
