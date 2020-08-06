@@ -21,7 +21,10 @@ composer require shijunjun/exim
 
 ### export(导出)
 ```php
-$export = new \shijunjun\exim\Export();
+$callback = function($item){
+	return $item;
+};
+$export = new \shijunjun\exim\Export($callback);
 
 $config = [
     // 导出的文件存放位置	
